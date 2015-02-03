@@ -13,7 +13,7 @@ determine which interests it is about.
 
 Step 1: Acquire an access token
 
-Head over to [http://topic.getprismatic.com](http://topic.getprismatic.com),
+Head over to [http://interest-graph.getprismatic.com](http://interest-graph.getprismatic.com),
 enter your email address, and some additional info about how you plan to use
 the service, and we will email you an API access token.
 
@@ -21,7 +21,7 @@ Step 2: Make a query
 
 Once you have your access token, you can try tagging a URL or piece of text via
 our web interface. The same
-[http://topic.getprismatic.com](http://topic.getprismatic.com) has input fields
+[http://interest-graph.getprismatic.com](http://interest-graph.getprismatic.com) has input fields
 where you can enter the query URL or text. 
 
 You can also make requests programmatically. For example, if we want to run the
@@ -30,7 +30,7 @@ Learning](http://en.wikipedia.org/wiki/Machine_learning), we can curl the
 service:
 
 ```  
-curl -H "X-API-TOKEN: <API-TOKEN>" http://topic.getprismatic.com/doc/topic?url=http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FMachine_learning
+curl -H "X-API-TOKEN: <API-TOKEN>" http://interest-graph.getprismatic.com/doc/topic?url=http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FMachine_learning
 ```
 
 where the `<API-TOKEN>` is a stand-in for the access token string.
@@ -42,6 +42,89 @@ list of topic tags. Each topic tag has a numeric `id` of the topic in the
 system, a human-readable topic name `topic`, and a `score`. The score is a real
 value between 0 and 1, and represents the degree to which a significant part of
 article is about the corresponding topic.
+
+As a [Schema](https://github.com/Prismatic/schema): 
+
+```clojure
+{:topics [{:id long
+           :topic String
+           :score Num}]}
+```
+
+**What are the API endpoints?**
+
+We have a number of endpoints that you can access programmatically with an API
+access token.  Passing the token is done in the `X-API-TOKEN` header. If for
+some reason you have trouble passing headers, you can alternatively pass it in
+as a query parameter under the `api-token`.
+
+## Tag URL with Interests
+
+    POST /url/topic
+
+### Input (request JSON body)
+
+Name | Type | Description
+-----|------|--------------
+`url`|`string` | URL to tag with interests.
+
+### Response
+
+A JSON map with a `topics` key that has a list of topics, each with an `id`, `topic` name, and `score`.
+
+As a [Schema](https://github.com/Prismatic/schema): 
+```clojure
+{:topics [{:id long
+           :topic String
+           :score Num}]}
+```
+
+
+
+## Tag Text with Interests
+
+    POST /text/topic
+
+### Input (request JSON body)
+
+Name | Type | Description
+-----|------|--------------
+`title`|`string` | The title of the piece of text to tag. Providing a relevant title will often result in higher quality tags.
+
+### Response
+
+A JSON map with a `topics` key that has a list of topics, each with an `id`, `topic` name, and `score`.
+
+As a [Schema](https://github.com/Prismatic/schema): 
+```clojure
+{:topics [{:id long
+           :topic String
+           :score Num}]}
+```
+
+
+## Search for an Interest
+
+    GET /topics/search?search-query=Q
+
+### Parameters
+
+Name | Type | Description
+-----|------|--------------
+`search-query`|`string` | The search keywords.
+
+
+### Response
+
+A JSON map with a `results` key that has a list of topics, each with an `id` and `topic` name.
+
+As a [Schema](https://github.com/Prismatic/schema): 
+```clojure
+{:results [{:id long
+           :topic String}]}
+```
+
+
 
 **I think the system made a mistake, where can I report it?**
 
@@ -61,7 +144,7 @@ We have over 5k modeled interests, and while we try to model the most popular
 interests that are applicable over a wide range of applications, we do not
 currently model everything. To check whether your topic is currently modeled,
 visit our [Topic Search
-Page](http://topic.getprismatic.com/topics/search/human).
+Page](http://interest-graph.getprismatic.com/topic/search/human).
 
 **You don’t currently model my interest. Where can I submit a request for you to model a new interest?**
 
