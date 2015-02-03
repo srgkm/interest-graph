@@ -56,7 +56,10 @@ As a [Schema](https://github.com/Prismatic/schema):
 We have a number of endpoints that you can access programmatically with an API
 access token.  Passing the token is done in the `X-API-TOKEN` header. If for
 some reason you have trouble passing headers, you can alternatively pass it in
-as a query parameter under the `api-token`.
+a query parameter `?api-token=<API-TOKEN>`. Omitting the token from both the
+query parameter and header will result in a `401` status code from the server.
+
+While we are still in ALPHA, we rate limit requests to at most 20 calls per minute.
 
 ## Tag URL with Interests
 
@@ -80,6 +83,19 @@ As a [Schema](https://github.com/Prismatic/schema):
 ```
 
 
+While in most cases we provide automatic tagging of interests based only on the
+URL, we respect individual publisher preferences to avoid being crawled by
+automated systems -- and therefore we may fail to extract text from a URL.
+When this happens, the server will return a `400` status code, with the message
+"Bad response from remote server," or a `500` status saying "Unexpected error
+fetching document." In such situations, you can extract the text from the page
+yourself using the handler below.
+
+Sometimes we can fetch the content on a page, but there is not enough text to
+determine what interests the page is about.  When this happens, the server will
+return a `500` status code, with a message like "Not enough extracted text to
+classify topics."
+
 
 ## Tag Text with Interests
 
@@ -90,6 +106,7 @@ As a [Schema](https://github.com/Prismatic/schema):
 Name | Type | Description
 -----|------|--------------
 `title`|`string` | The title of the piece of text to tag. Providing a relevant title will often result in higher quality tags.
+`body`|`string` | The body of the text to tag. Must be at least 140 characters.
 
 ### Response
 
@@ -102,6 +119,8 @@ As a [Schema](https://github.com/Prismatic/schema):
            :score Num}]}
 ```
 
+If fewer than 140 characters are passed in the body, then the server will
+return a `400` status code with a message describing the failure.
 
 ## Search for an Interest
 
