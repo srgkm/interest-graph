@@ -62,8 +62,10 @@ tagging service on the [Wikipedia article about Machine
 Learning](http://en.wikipedia.org/wiki/Machine_learning), we can curl the
 service:
 
+
+
 ```  
-curl -H "X-API-TOKEN: <API-TOKEN>" http://interest-graph.getprismatic.com/doc/topic?url=http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FMachine_learning
+curl -H "X-API-TOKEN: <API-TOKEN>" 'http://interest-graph.getprismatic.com/url/topic' --data 'url=http%3A%2F%2Fen.wikipedia.org%2Fwiki%2FMachine_learning'
 ```
 
 where the `<API-TOKEN>` is a stand-in for the access token string.
