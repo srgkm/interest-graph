@@ -208,3 +208,6 @@ modeled interests, we will prioritize which interests we add based on aggregate
 demand. If you would like to submit a request to model new topic, please visit
 our [Interest Submission Page](http://goo.gl/forms/8ryfTk8I6Z).
 
+## My question is not listed here.
+
+If there is a question or issue that you don't see addressed here, please email us at <public-api@getprismatic.com>.
