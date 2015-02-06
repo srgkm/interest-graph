@@ -95,7 +95,9 @@ some reason you have trouble passing headers, you can alternatively pass it in
 a query parameter `?api-token=<API-TOKEN>`. Omitting the token from both the
 query parameter and header will result in a `401` status code from the server.
 
-While we are still in ALPHA, we rate limit requests to at most 20 calls per minute.
+While we are still in ALPHA, we rate limit requests to at most 20 calls per minute
+by default.  To request a rate limit increase, email <public-api@getprismatic.com>
+with details about your use case and desired rates per API endpoint.
 
 ### Tag URL with Interests
 
