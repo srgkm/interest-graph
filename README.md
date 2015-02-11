@@ -30,6 +30,7 @@ Table of Contents
 
 ##What does this do?
 
+###Topic Tagging
 This service automatically analyzes the content of a document or piece of text
 and reports the interests present in the article. An interest is a
 non-hierarchical, single-phrase summary of the thematic content of a piece of
@@ -38,6 +39,9 @@ text; examples include *Functional Programming*, *Celebrity Gossip*, or
 the content of text in order to help connect people with the content they find
 interesting. Our interest graph can automatically analyze a piece of text and
 determine which interests it is about.
+
+###Topic Similarity
+The service provides an endpoint for returning the set of topics that are similar to a given query topic.
 
 ##Is the service still in ALPHA?
 
@@ -181,6 +185,33 @@ As a [Schema](https://github.com/Prismatic/schema):
            :topic String}]}
 ```
 
+
+### Search for Topics Related to a Given Topic
+
+    GET /topic/topic?id=ID
+
+#### Parameters
+
+Name | Type | Description
+-----|------|--------------
+`id`|`int` | The ID of the query topic.
+
+Note: topic IDs can be determined by looking at the topic tags returned from a call to the tagger,
+ or by searching.
+
+#### Response
+
+A JSON map with a `topics` key that has a list of topics, each with an `id`, `topic` name, and similarity `score`.
+
+As a [Schema](https://github.com/Prismatic/schema): 
+```clojure
+{:topics [{:id long
+           :topic String
+           :score Num}]}
+```
+
+If an invalid topic ID is passed as the query, then the server will return a
+`400` status code with a message describing the failure.
 
 
 ##I think the system made a mistake, where can I report it?
