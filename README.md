@@ -5,7 +5,10 @@ Table of Contents
 =================
 
   * [Prismatic Interest Graph API](#prismatic-interest-graph-api)
+  * [Table of Contents](#table-of-contents)
     * [What does this do?](#what-does-this-do)
+      * [Topic Tagging](#topic-tagging)
+      * [Topic Similarity](#topic-similarity)
     * [Is the service still in ALPHA?](#is-the-service-still-in-alpha)
     * [How do I use the service?](#how-do-i-use-the-service)
       * [Step 1: Acquire an access token](#step-1-acquire-an-access-token)
@@ -21,15 +24,18 @@ Table of Contents
       * [Search for an Interest](#search-for-an-interest)
         * [Parameters](#parameters)
         * [Response](#response-2)
+      * [Search for Topics Related to a Given Topic](#search-for-topics-related-to-a-given-topic)
+        * [Parameters](#parameters-1)
+        * [Response](#response-3)
     * [I think the system made a mistake, where can I report it?](#i-think-the-system-made-a-mistake-where-can-i-report-it)
     * [Do you have the topic I care about?](#do-you-have-the-topic-i-care-about)
     * [You don’t currently model my interest. Where can I submit a request for you to model a new interest?](#you-dont-currently-model-my-interest-where-can-i-submit-a-request-for-you-to-model-a-new-interest)
     * [My question is not listed here.](#my-question-is-not-listed-here)
 
 
-
 ##What does this do?
 
+###Topic Tagging
 This service automatically analyzes the content of a document or piece of text
 and reports the interests present in the article. An interest is a
 non-hierarchical, single-phrase summary of the thematic content of a piece of
@@ -38,6 +44,9 @@ text; examples include *Functional Programming*, *Celebrity Gossip*, or
 the content of text in order to help connect people with the content they find
 interesting. Our interest graph can automatically analyze a piece of text and
 determine which interests it is about.
+
+###Topic Similarity
+The service provides an endpoint for returning the set of topics that are similar to a given query topic.
 
 ##Is the service still in ALPHA?
 
@@ -181,6 +190,33 @@ As a [Schema](https://github.com/Prismatic/schema):
            :topic String}]}
 ```
 
+
+### Search for Topics Related to a Given Topic
+
+    GET /topic/topic?id=ID
+
+#### Parameters
+
+Name | Type | Description
+-----|------|--------------
+`id`|`int` | The ID of the query topic.
+
+Note: topic IDs can be determined by looking at the topic tags returned from a call to the tagger,
+ or by searching.
+
+#### Response
+
+A JSON map with a `topics` key that has a list of topics, each with an `id`, `topic` name, and similarity `score`.
+
+As a [Schema](https://github.com/Prismatic/schema): 
+```clojure
+{:topics [{:id long
+           :topic String
+           :score Num}]}
+```
+
+If an invalid topic ID is passed as the query, then the server will return a
+`400` status code with a message describing the failure.
 
 
 ##I think the system made a mistake, where can I report it?
