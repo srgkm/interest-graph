@@ -5,7 +5,10 @@ Table of Contents
 =================
 
   * [Prismatic Interest Graph API](#prismatic-interest-graph-api)
+  * [Table of Contents](#table-of-contents)
     * [What does this do?](#what-does-this-do)
+      * [Topic Tagging](#topic-tagging)
+      * [Topic Similarity](#topic-similarity)
     * [Is the service still in ALPHA?](#is-the-service-still-in-alpha)
     * [How do I use the service?](#how-do-i-use-the-service)
       * [Step 1: Acquire an access token](#step-1-acquire-an-access-token)
@@ -21,11 +24,13 @@ Table of Contents
       * [Search for an Interest](#search-for-an-interest)
         * [Parameters](#parameters)
         * [Response](#response-2)
+      * [Search for Topics Related to a Given Topic](#search-for-topics-related-to-a-given-topic)
+        * [Parameters](#parameters-1)
+        * [Response](#response-3)
     * [I think the system made a mistake, where can I report it?](#i-think-the-system-made-a-mistake-where-can-i-report-it)
     * [Do you have the topic I care about?](#do-you-have-the-topic-i-care-about)
     * [You don’t currently model my interest. Where can I submit a request for you to model a new interest?](#you-dont-currently-model-my-interest-where-can-i-submit-a-request-for-you-to-model-a-new-interest)
     * [My question is not listed here.](#my-question-is-not-listed-here)
-
 
 
 ##What does this do?
